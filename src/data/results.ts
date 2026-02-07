@@ -10,18 +10,20 @@ export const reportTypes: Record<string, ReportType> = {
     id: 'general-direct',
     name: '해외직접투자 신고',
     description:
-      '해외 현지법인에 지분 10% 이상 취득하거나, 임원 파견/1년 이상 파견 계약 등 경영 참여 목적의 투자입니다.',
+      '해외 현지법인에 지분 10% 이상 취득하거나, 임원 파견/1년 이상 제품매매 계약 등 경영 참여 목적의 투자입니다.',
     agency: agencies['forex-bank'],
     requiredForms: [forms['form-direct-investment']],
     requiredDocuments: [
-      '직접투자신고서',
+      '해외직접투자신고서',
       '사업계획서',
-      '정관(안)',
-      '납세증명서',
+      '신용정보조회서',
+      '조세체납증명서 (납세증명서)',
+      '주민등록등본 (개인) / 법인등기부등본 (법인)',
     ],
     legalBasis: '외국환거래규정 제9장',
     notes: [
       '📌 신고 시점: 사전 신고 (송금 전 완료 필수)',
+      '📌 신고 기관: 지정거래 외국환은행장',
       '신고 수리 후 1년 이내 투자 이행',
     ],
   },
@@ -31,19 +33,21 @@ export const reportTypes: Record<string, ReportType> = {
   // ========================================
   'general-securities': {
     id: 'general-securities',
-    name: '해외증권취득 신고',
+    name: '증권취득 신고',
     description:
-      '해외 법인의 지분을 10% 미만으로 단순 투자(포트폴리오 투자)하는 경우입니다.',
-    agency: agencies['forex-bank'],
+      '해외 법인의 지분을 10% 미만으로 단순 자산 운용 목적으로 투자하는 경우입니다.',
+    agency: agencies['bok'],
     requiredForms: [forms['form-securities']],
     requiredDocuments: [
-      '해외증권취득신고서',
-      '증권취득 원인서류',
+      '증권취득신고서',
+      '취득 사유서',
+      '증권 가치 입증 서류',
     ],
     legalBasis: '외국환거래규정 제7장',
     notes: [
       '📌 신고 시점: 사전 신고',
-      '금융투자업자 통한 상장증권 취득 시 별도 신고 불요할 수 있음',
+      '📌 신고 기관: 한국은행총재 (증권사를 통하지 않는 경우)',
+      '금융투자업자(증권사) 통한 상장증권 취득 시 별도 신고 불요할 수 있음',
     ],
   },
 
@@ -58,38 +62,39 @@ export const reportTypes: Record<string, ReportType> = {
     agency: agencies['forex-bank'],
     requiredForms: [forms['form-branch']],
     requiredDocuments: [
-      '해외지사 설치 신고서 (별지 제9-4호)',
+      '해외지사 설치 신고서',
       '사업계획서',
-      '납세증명서 (국세, 지방세)',
-      '신용정보조회동의서',
+      '납세증명서',
+      '신용정보조회서',
     ],
     legalBasis: '외국환거래규정 제9장',
     notes: [
-      '신고 시점: 사전 신고',
+      '📌 신고 시점: 사전 신고',
+      '📌 신고 기관: 지정거래 외국환은행장',
       '설치비, 영업기금 송금 목적',
     ],
   },
 
   // ========================================
-  // 역외금융회사 - 10% 미만 (해외증권취득)
+  // 역외금융회사 - 10% 미만 (증권취득)
   // ========================================
   'offshore-securities': {
     id: 'offshore-securities',
-    name: '해외증권취득 신고 (역외금융회사)',
+    name: '증권취득 신고 (역외금융회사)',
     description:
-      '역외금융회사(현지 실체 없는 펀드, SPC 등)의 지분을 10% 미만으로 취득하는 경우입니다.',
-    agency: agencies['bok-forex'],
-    requiredForms: [forms['form-offshore-securities']],
+      '역외금융회사(투자목적 페이퍼컴퍼니, SPC 등)의 지분을 10% 미만으로 취득하는 경우입니다.',
+    agency: agencies['bok'],
+    requiredForms: [forms['form-securities']],
     requiredDocuments: [
-      '해외증권취득 신고서',
-      '펀드 개요서 (PPM)',
-      '납세증명서 (국세, 지방세)',
-      '신용정보조회동의서',
+      '증권취득신고서',
+      '취득 사유서',
+      '증권 가치 입증 서류',
     ],
-    legalBasis: '외국환거래규정 제7장 제4절',
+    legalBasis: '외국환거래규정 제7장',
     notes: [
-      '신고 시점: 사전 신고',
-      '신고 기관: 지정거래외국환은행 또는 한국은행',
+      '📌 신고 시점: 사전 신고',
+      '📌 신고 기관: 한국은행총재 (또는 증권사 대행)',
+      '일반 증권취득 절차 준용',
     ],
   },
 
@@ -98,23 +103,21 @@ export const reportTypes: Record<string, ReportType> = {
   // ========================================
   'offshore-direct-corporation': {
     id: 'offshore-direct-corporation',
-    name: '해외직접투자 신고 (역외금융회사)',
+    name: '역외금융회사 투자 신고',
     description:
-      '영리법인이 역외금융회사의 지분을 10% 이상 취득하는 경우입니다.',
-    agency: agencies['forex-bank'],
-    requiredForms: [forms['form-direct-investment']],
+      '영리법인이 역외금융회사(투자목적 페이퍼컴퍼니)의 지분을 10% 이상 취득하는 경우입니다.',
+    agency: agencies['bok'],
+    requiredForms: [forms['form-offshore-investment']],
     requiredDocuments: [
-      '해외직접투자 신고서 (별지 제9-1호)',
+      '역외금융회사 투자신고서',
       '사업계획서',
-      '펀드 개요서 (PPM)',
-      '납세증명서 (국세, 지방세)',
-      '신용정보조회동의서',
-      '법인등기부등본',
+      '투자자금 내역서',
     ],
     legalBasis: '외국환거래규정 제9장',
     notes: [
-      '신고 시점: 사전 신고',
-      '신고 기관: 지정거래외국환은행',
+      '📌 신고 시점: 사전 신고',
+      '📌 신고 기관: 한국은행총재',
+      '해외직접투자 요건 충족 시 적용',
     ],
   },
 
@@ -143,20 +146,22 @@ export const reportTypes: Record<string, ReportType> = {
   // ========================================
   'financial-direct-fin': {
     id: 'financial-direct-fin',
-    name: '해외직접투자 신고 (금융위원회 신고수리)',
+    name: '해외직접투자 신고수리 (금융위원회)',
     description:
       '금융회사가 해외에 금융·보험업 법인을 설립하거나 지분을 취득하는 경우입니다.',
     agency: agencies['fsc'],
     requiredForms: [forms['form-b-financial']],
     requiredDocuments: [
-      '해외직접투자신고서',
-      '이사회 의결서',
-      '재무건전성 자료',
+      '투자신고서',
+      '향후 3년간 사업계획서 및 추정재무제표',
+      '이사회 의사록',
+      '외화경비 조달계획서',
+      '현지법인 정관 및 최근 결산서',
     ],
     legalBasis: '금융회사의 해외진출에 관한 규정 제3조',
     notes: [
       '📌 신고 시점: 사전 신고 (수리 필요)',
-      '금융감독원 경유 → 금융위원회 최종 수리',
+      '📌 신고 기관: 금융위원회 (금융감독원 경유)',
     ],
   },
 
@@ -167,18 +172,19 @@ export const reportTypes: Record<string, ReportType> = {
     id: 'financial-direct-non',
     name: '해외직접투자 신고 (금융감독원)',
     description:
-      '금융회사가 해외에 비금융업 법인을 설립하거나 지분을 취득하는 경우입니다.',
+      '금융회사가 해외에 비금융업(핀테크, 부동산 등) 법인을 설립하거나 지분을 취득하는 경우입니다.',
     agency: agencies['fss'],
     requiredForms: [forms['form-b-non-financial']],
     requiredDocuments: [
-      '해외직접투자신고서',
-      '이사회 의결서',
-      '재무건전성 자료',
+      '투자신고서',
+      '사업계획서',
+      '주식평가의견서 (비상장주식의 경우)',
+      '조세체납 여부 증빙',
     ],
     legalBasis: '금융회사의 해외진출에 관한 규정 제3조',
     notes: [
       '📌 신고 시점: 사전 신고',
-      '금융업 투자 대비 심사 요건 완화',
+      '📌 신고 기관: 금융감독원장',
     ],
   },
 
@@ -189,18 +195,18 @@ export const reportTypes: Record<string, ReportType> = {
     id: 'financial-offshore',
     name: '역외금융회사 투자 보고 (금융감독원)',
     description:
-      '금융회사가 역외금융회사(해외 펀드, SPC 등)에 투자하는 경우입니다.',
+      '금융회사가 역외금융회사(SPC, 펀드 등)에 투자하는 경우입니다.',
     agency: agencies['fss'],
     requiredForms: [forms['form-b-offshore']],
     requiredDocuments: [
-      '투자보고서',
-      '송금확인서',
-      '설립증빙',
+      '역외금융회사 투자보고서',
+      '사업계획서',
+      '투자약정서 (LPA 등)',
     ],
     legalBasis: '금융회사의 해외진출에 관한 규정 제4조',
     notes: [
       '📌 신고 시점: 사후 보고 (투자 후 1개월 이내)',
-      '지분율 제한 없음',
+      '📌 신고 기관: 금융감독원장',
     ],
   },
 
@@ -222,6 +228,7 @@ export const reportTypes: Record<string, ReportType> = {
     legalBasis: '금융회사의 해외진출에 관한 규정 제4조',
     notes: [
       '📌 신고 시점: 사후 보고 (설치 후 1개월 이내)',
+      '📌 신고 기관: 금융감독원장',
     ],
   },
 
