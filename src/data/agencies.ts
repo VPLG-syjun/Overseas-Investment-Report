@@ -8,6 +8,18 @@ export const agencies: Record<string, ReportingAgency> = {
     description: '주거래 은행 (외국환거래규정에 따른 지정거래외국환은행)',
     website: 'https://www.bok.or.kr',
   },
+  'bok': {
+    id: 'bok',
+    name: '한국은행',
+    description: '한국은행 외환심사팀',
+    website: 'https://www.bok.or.kr',
+  },
+  'bok-forex': {
+    id: 'bok-forex',
+    name: '한국은행 / 외국환은행',
+    description: '한국은행 또는 지정거래 외국환은행',
+    website: 'https://www.bok.or.kr',
+  },
   'fsc': {
     id: 'fsc',
     name: '금융위원회',
@@ -39,6 +51,13 @@ export const forms: Record<string, ReportForm> = {
     downloadUrl: '/forms/form-securities.pdf',
     description: '해외증권 취득 시 제출하는 신고서',
   },
+  'form-offshore-securities': {
+    id: 'form-offshore-securities',
+    name: '역외금융회사 증권취득 신고서',
+    formNumber: '',
+    downloadUrl: '/forms/form-offshore-securities.pdf',
+    description: '역외금융회사 증권 취득 시 제출하는 신고서',
+  },
   'form-branch': {
     id: 'form-branch',
     name: '해외지사 설치 신고서',
@@ -46,14 +65,7 @@ export const forms: Record<string, ReportForm> = {
     downloadUrl: '/forms/form-branch.pdf',
     description: '해외 지점/사무소 설치 시 제출하는 신고서',
   },
-  'form-offshore': {
-    id: 'form-offshore',
-    name: '역외금융회사 투자 신고서',
-    formNumber: '',
-    downloadUrl: '/forms/form-offshore.pdf',
-    description: '역외금융회사 투자 시 제출하는 신고서',
-  },
-  // 루트 B 서식
+  // 루트 B 서식 (금융회사)
   'form-b-financial': {
     id: 'form-b-financial',
     name: '금융업 해외직접투자 신고서',

@@ -2,199 +2,255 @@ import type { Question } from '../types';
 
 // 질문 데이터
 export const questions: Question[] = [
+  // ========================================
   // Step 1: 투자자 본인 확인
+  // ========================================
   {
     id: 'investor-type',
     category: 'Step 1: 투자자 확인',
     question: '귀하(투자자)는 어떤 성격입니까?',
     options: [
       {
-        id: 'general',
-        label: '개인 또는 일반 법인',
+        id: 'individual',
+        label: '개인 / 개인사업자',
+        description: '개인 자격으로 해외 투자',
+        nextQuestionId: 'individual-target',
+        resultTags: ['investor:individual'],
+      },
+      {
+        id: 'corporation',
+        label: '법인 (일반)',
         description: '제조업, 서비스업 등 일반 기업',
-        nextQuestionId: 'route-a-purpose',
-        resultTags: ['investor:general'],
+        nextQuestionId: 'corporation-target',
+        resultTags: ['investor:corporation'],
       },
       {
         id: 'financial',
         label: '금융회사',
         description: '은행, 증권, 보험, 카드, 자산운용사 등',
-        nextQuestionId: 'route-b-type',
+        nextQuestionId: 'financial-type',
         resultTags: ['investor:financial'],
       },
       {
         id: 'institutional',
-        label: '기관투자가',
+        label: '기관투자가 (고유업무)',
         description: '은행, 증권사 등이 고유 업무로 해외증권에 투자하는 경우',
-        nextQuestionId: 'route-c-type',
+        nextQuestionId: 'institutional-type',
         resultTags: ['investor:institutional'],
       },
     ],
   },
 
   // ========================================
-  // 루트 A: 개인 또는 일반 법인 (외국환거래규정 적용)
+  // 개인 / 개인사업자 루트
   // ========================================
   {
-    id: 'route-a-purpose',
-    category: '루트 A: 일반 투자자',
-    question: '투자 목적이 무엇입니까?',
-    description: '외국환거래규정이 적용됩니다',
-    options: [
-      {
-        id: 'a1-direct',
-        label: '경영 참여 또는 지분 투자 (해외직접투자)',
-        description: '지분 10% 이상 취득하거나, 10% 미만이라도 임원 파견/계약 체결 등 실질적 경영권 행사',
-        nextQuestionId: 'route-a-target',
-        resultTags: ['route:a', 'purpose:direct-investment'],
-      },
-      {
-        id: 'a2-securities',
-        label: '단순 투자 (해외증권취득)',
-        description: '지분 10% 미만의 주식, 채권 등 포트폴리오 투자',
-        nextQuestionId: 'route-a-securities-target',
-        resultTags: ['route:a', 'purpose:securities'],
-      },
-      {
-        id: 'a3-branch',
-        label: '현지 영업소 설치 (해외지사)',
-        description: '법인 설립이 아닌 지점이나 사무소 설치',
-        resultTags: ['route:a', 'purpose:branch'],
-      },
-    ],
-  },
-
-  // 루트 A - 해외직접투자 시 투자 대상 확인
-  {
-    id: 'route-a-target',
-    category: '루트 A: 일반 투자자',
+    id: 'individual-target',
+    category: '개인 / 개인사업자',
     question: '투자 대상은 무엇입니까?',
     options: [
       {
-        id: 'a-target-general',
+        id: 'individual-general',
         label: '일반 해외법인',
         description: '해외에 설립된 일반 법인 (현지법인 설립, 지분 취득 등)',
-        resultTags: ['route:a', 'purpose:direct-investment', 'target:general'],
+        nextQuestionId: 'individual-general-type',
+        resultTags: ['investor:individual', 'target:general'],
       },
       {
-        id: 'a-target-offshore',
+        id: 'individual-offshore',
         label: '역외금융회사',
-        description: '실체 없는 역외금융회사 (해외 펀드 등)',
-        resultTags: ['route:a', 'purpose:direct-investment', 'target:offshore'],
+        description: '해외 펀드 등 역외금융회사',
+        nextQuestionId: 'individual-offshore-ratio',
+        resultTags: ['investor:individual', 'target:offshore'],
+      },
+      {
+        id: 'individual-branch',
+        label: '해외지사 설치',
+        description: '법인 설립이 아닌 지점이나 사무소 설치',
+        resultTags: ['investor:individual', 'purpose:branch'],
       },
     ],
   },
-
-  // 루트 A - 해외증권취득 시 투자 대상 확인
   {
-    id: 'route-a-securities-target',
-    category: '루트 A: 일반 투자자',
-    question: '취득하려는 증권의 발행 주체는 무엇입니까?',
+    id: 'individual-general-type',
+    category: '개인 / 개인사업자',
+    question: '투자 유형은 무엇입니까?',
     options: [
       {
-        id: 'a-sec-general',
-        label: '일반 해외법인 증권',
-        description: '해외 상장/비상장 주식, 채권 등',
-        resultTags: ['route:a', 'purpose:securities', 'target:general'],
+        id: 'individual-direct',
+        label: '해외직접투자 (지분 10% 이상)',
+        description: '경영 참여 목적, 지분 10% 이상 취득 또는 실질적 경영권 행사',
+        resultTags: ['investor:individual', 'target:general', 'type:direct'],
       },
       {
-        id: 'a-sec-offshore',
-        label: '역외금융회사 증권',
-        description: '역외금융회사(해외 펀드 등)의 지분 취득',
-        resultTags: ['route:a', 'purpose:securities', 'target:offshore'],
+        id: 'individual-securities',
+        label: '해외증권취득 (지분 10% 미만)',
+        description: '단순 포트폴리오 투자, 지분 10% 미만',
+        resultTags: ['investor:individual', 'target:general', 'type:securities'],
+      },
+    ],
+  },
+  {
+    id: 'individual-offshore-ratio',
+    category: '개인 / 개인사업자',
+    question: '역외금융회사 지분 취득 비율은 얼마입니까?',
+    description: '개인/개인사업자의 역외금융회사 투자는 지분율 제한이 있습니다',
+    options: [
+      {
+        id: 'individual-offshore-under10',
+        label: '10% 미만',
+        description: '가능 - 해외증권취득으로 신고',
+        resultTags: ['investor:individual', 'target:offshore', 'ratio:under10'],
+      },
+      {
+        id: 'individual-offshore-over10',
+        label: '10% 이상',
+        description: '불가 - 개인/개인사업자는 역외금융회사 10% 이상 취득이 제한됩니다',
+        resultTags: ['investor:individual', 'target:offshore', 'ratio:over10', 'restricted'],
       },
     ],
   },
 
   // ========================================
-  // 루트 B: 금융회사 (금융회사 해외진출 규정 적용)
+  // 법인 (일반) 루트
   // ========================================
   {
-    id: 'route-b-type',
-    category: '루트 B: 금융회사',
+    id: 'corporation-target',
+    category: '법인 (일반)',
+    question: '투자 대상은 무엇입니까?',
+    options: [
+      {
+        id: 'corp-general',
+        label: '일반 해외법인',
+        description: '해외에 설립된 일반 법인 (현지법인 설립, 지분 취득 등)',
+        nextQuestionId: 'corporation-general-type',
+        resultTags: ['investor:corporation', 'target:general'],
+      },
+      {
+        id: 'corp-offshore',
+        label: '역외금융회사',
+        description: '해외 펀드 등 역외금융회사',
+        nextQuestionId: 'corporation-offshore-ratio',
+        resultTags: ['investor:corporation', 'target:offshore'],
+      },
+      {
+        id: 'corp-branch',
+        label: '해외지사 설치',
+        description: '법인 설립이 아닌 지점이나 사무소 설치',
+        resultTags: ['investor:corporation', 'purpose:branch'],
+      },
+    ],
+  },
+  {
+    id: 'corporation-general-type',
+    category: '법인 (일반)',
+    question: '투자 유형은 무엇입니까?',
+    options: [
+      {
+        id: 'corp-direct',
+        label: '해외직접투자 (지분 10% 이상)',
+        description: '경영 참여 목적, 지분 10% 이상 취득 또는 실질적 경영권 행사',
+        resultTags: ['investor:corporation', 'target:general', 'type:direct'],
+      },
+      {
+        id: 'corp-securities',
+        label: '해외증권취득 (지분 10% 미만)',
+        description: '단순 포트폴리오 투자, 지분 10% 미만',
+        resultTags: ['investor:corporation', 'target:general', 'type:securities'],
+      },
+    ],
+  },
+  {
+    id: 'corporation-offshore-ratio',
+    category: '법인 (일반)',
+    question: '역외금융회사 지분 취득 비율은 얼마입니까?',
+    options: [
+      {
+        id: 'corp-offshore-under10',
+        label: '10% 미만',
+        description: '해외증권취득으로 신고',
+        resultTags: ['investor:corporation', 'target:offshore', 'ratio:under10'],
+      },
+      {
+        id: 'corp-offshore-over10',
+        label: '10% 이상',
+        description: '가능 (조건부) - 한국은행/외국환은행에 신고',
+        resultTags: ['investor:corporation', 'target:offshore', 'ratio:over10'],
+      },
+    ],
+  },
+
+  // ========================================
+  // 금융회사 루트
+  // ========================================
+  {
+    id: 'financial-type',
+    category: '금융회사',
     question: '투자/진출의 형태가 무엇입니까?',
     description: '금융회사 해외진출 규정이 적용됩니다',
     options: [
       {
-        id: 'b1-direct',
-        label: '해외 법인 설립 또는 지분 투자 (직접투자)',
+        id: 'financial-general',
+        label: '일반 해외법인 투자 (직접투자)',
         description: '해외에 법인을 설립하거나 기존 법인의 지분 취득',
-        nextQuestionId: 'route-b-target',
-        resultTags: ['route:b', 'type:direct'],
+        nextQuestionId: 'financial-industry',
+        resultTags: ['investor:financial', 'target:general'],
       },
       {
-        id: 'b2-branch',
+        id: 'financial-offshore',
+        label: '역외금융회사 투자',
+        description: '역외금융회사 (해외 펀드 등) 투자 - 지분율 제한 없음',
+        resultTags: ['investor:financial', 'target:offshore'],
+      },
+      {
+        id: 'financial-branch',
         label: '현지 지점 또는 사무소 설치',
         description: '해외에 지점이나 사무소 설치',
-        resultTags: ['route:b', 'type:branch'],
+        resultTags: ['investor:financial', 'purpose:branch'],
       },
     ],
   },
-
-  // 루트 B - 직접투자 시 투자 대상 확인
   {
-    id: 'route-b-target',
-    category: '루트 B: 금융회사',
-    question: '투자 대상은 무엇입니까?',
-    options: [
-      {
-        id: 'b-target-general',
-        label: '일반 해외법인',
-        description: '해외에 설립된 일반 법인',
-        nextQuestionId: 'route-b-industry',
-        resultTags: ['route:b', 'type:direct', 'target:general'],
-      },
-      {
-        id: 'b-target-offshore',
-        label: '역외금융회사',
-        description: '역외금융회사 (해외 펀드 등)',
-        resultTags: ['route:b', 'type:direct', 'target:offshore'],
-      },
-    ],
-  },
-
-  // 루트 B - 일반 해외법인 직접투자 시 업종 확인
-  {
-    id: 'route-b-industry',
-    category: '루트 B: 금융회사',
+    id: 'financial-industry',
+    category: '금융회사',
     question: '투자 대상 해외 법인의 업종은 무엇입니까?',
     description: '업종에 따라 신고 기관이 달라집니다',
     options: [
       {
-        id: 'b1-financial-industry',
+        id: 'financial-industry-fin',
         label: '금융/보험업',
         description: '은행, 증권, 보험, 자산운용 등 금융업',
-        resultTags: ['route:b', 'type:direct', 'target:general', 'industry:financial'],
+        resultTags: ['investor:financial', 'target:general', 'industry:financial'],
       },
       {
-        id: 'b1-non-financial-industry',
+        id: 'financial-industry-non',
         label: '비금융업',
         description: '부동산, IT, 제조업 등 비금융업',
-        resultTags: ['route:b', 'type:direct', 'target:general', 'industry:non-financial'],
+        resultTags: ['investor:financial', 'target:general', 'industry:non-financial'],
       },
     ],
   },
 
   // ========================================
-  // 루트 C: 기관투자가 (신고 예외)
+  // 기관투자가 루트
   // ========================================
   {
-    id: 'route-c-type',
-    category: '루트 C: 기관투자가',
+    id: 'institutional-type',
+    category: '기관투자가',
     question: '투자 형태가 무엇입니까?',
     description: '기관투자가의 고유 업무로서 투자하는 경우입니다',
     options: [
       {
-        id: 'c1-securities',
+        id: 'institutional-securities',
         label: '해외증권 취득 (고유 업무)',
         description: '은행, 증권사 등이 고유 업무로 해외증권에 투자',
-        resultTags: ['route:c', 'type:securities'],
+        resultTags: ['investor:institutional', 'type:securities'],
       },
       {
-        id: 'c2-other',
+        id: 'institutional-other',
         label: '그 외 투자',
-        description: '고유 업무 외의 투자인 경우',
-        nextQuestionId: 'route-b-type',
+        description: '고유 업무 외의 투자인 경우 → 금융회사 절차 적용',
+        nextQuestionId: 'financial-type',
         resultTags: ['investor:financial'],
       },
     ],
@@ -211,11 +267,17 @@ export const FIRST_QUESTION_ID = 'investor-type';
 
 // 마지막 질문 ID들 (이 질문 이후 결과 페이지로 이동)
 export const FINAL_QUESTION_IDS = [
-  'route-a-purpose',      // 해외지사 설치 선택 시
-  'route-a-target',       // 해외직접투자 대상 선택 시
-  'route-a-securities-target', // 해외증권취득 대상 선택 시
-  'route-b-type',         // 금융회사 지사 설치 선택 시
-  'route-b-target',       // 금융회사 역외금융회사 선택 시
-  'route-b-industry',     // 금융회사 일반법인 업종 선택 시
-  'route-c-type',         // 기관투자가 선택 시
+  // 개인
+  'individual-target',        // 해외지사 선택 시
+  'individual-general-type',  // 일반법인 투자유형 선택 시
+  'individual-offshore-ratio', // 역외금융회사 지분율 선택 시
+  // 법인
+  'corporation-target',        // 해외지사 선택 시
+  'corporation-general-type',  // 일반법인 투자유형 선택 시
+  'corporation-offshore-ratio', // 역외금융회사 지분율 선택 시
+  // 금융회사
+  'financial-type',           // 역외금융회사, 지사 선택 시
+  'financial-industry',       // 일반법인 업종 선택 시
+  // 기관투자가
+  'institutional-type',       // 고유업무 증권취득 선택 시
 ];
