@@ -4,7 +4,6 @@ import {
   questions,
   getQuestionById,
   FIRST_QUESTION_ID,
-  FINAL_QUESTION_IDS,
 } from '../data/questions';
 
 const initialState: SurveyState = {
@@ -36,8 +35,8 @@ export const useSurvey = () => {
       const firstSelectedOption = selectedOptions[0];
       const nextQuestionId = firstSelectedOption?.nextQuestionId;
 
-      // 마지막 질문인지 확인
-      const isLastQuestion = FINAL_QUESTION_IDS.includes(prev.currentQuestionId);
+      // 완료 조건: 다음 질문이 없는 경우
+      const shouldComplete = !nextQuestionId;
 
       return {
         ...prev,
@@ -46,10 +45,10 @@ export const useSurvey = () => {
           [prev.currentQuestionId]: optionIds,
         },
         collectedTags: [...prev.collectedTags, ...newTags],
-        currentQuestionId: isLastQuestion
+        currentQuestionId: shouldComplete
           ? prev.currentQuestionId
-          : nextQuestionId || prev.currentQuestionId,
-        isCompleted: isLastQuestion,
+          : nextQuestionId,
+        isCompleted: shouldComplete,
       };
     });
   }, []);
