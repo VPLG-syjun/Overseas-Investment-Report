@@ -4,72 +4,82 @@ import type { ReportingAgency, ReportForm } from '../types';
 export const agencies: Record<string, ReportingAgency> = {
   'forex-bank': {
     id: 'forex-bank',
-    name: '외국환은행',
-    description: '외국환거래법에 따른 지정거래외국환은행',
+    name: '지정거래 외국환은행',
+    description: '주거래 은행 (외국환거래규정에 따른 지정거래외국환은행)',
     website: 'https://www.bok.or.kr',
   },
-  'bank-of-korea': {
-    id: 'bank-of-korea',
-    name: '한국은행',
-    description: '대규모 투자 등 특정 경우 한국은행에 신고',
-    website: 'https://www.bok.or.kr',
+  'fsc': {
+    id: 'fsc',
+    name: '금융위원회',
+    description: '금융감독원 경유하여 금융위원회에 신고',
+    website: 'https://www.fsc.go.kr',
   },
-  'financial-supervisory': {
-    id: 'financial-supervisory',
+  'fss': {
+    id: 'fss',
     name: '금융감독원',
-    description: '금융투자업자를 통한 투자 시 관련',
+    description: '금융회사의 해외진출 관련 신고/보고 기관',
     website: 'https://www.fss.or.kr',
-  },
-  'tax-office': {
-    id: 'tax-office',
-    name: '관할 세무서',
-    description: '해외금융계좌 신고 및 세금 관련',
-    website: 'https://www.nts.go.kr',
   },
 };
 
 // 서식 데이터
 export const forms: Record<string, ReportForm> = {
-  'form-9-1': {
-    id: 'form-9-1',
+  // 루트 A 서식
+  'form-direct-investment': {
+    id: 'form-direct-investment',
     name: '해외직접투자 신고서',
     formNumber: '별지 제9-1호',
-    downloadUrl: '/forms/form-9-1.pdf', // 실제 URL로 교체 필요
+    downloadUrl: '/forms/form-direct-investment.pdf',
     description: '해외직접투자 시 외국환은행에 제출하는 신고서',
   },
-  'form-9-2': {
-    id: 'form-9-2',
-    name: '해외직접투자 변경신고서',
-    formNumber: '별지 제9-2호',
-    downloadUrl: '/forms/form-9-2.pdf',
-    description: '기존 해외직접투자 내용 변경 시 제출',
-  },
-  'form-9-3': {
-    id: 'form-9-3',
-    name: '해외직접투자 사후보고서',
-    formNumber: '별지 제9-3호',
-    downloadUrl: '/forms/form-9-3.pdf',
-    description: '투자 완료 후 결과 보고',
-  },
-  'form-7-10': {
-    id: 'form-7-10',
-    name: '증권취득 신고서',
+  'form-securities': {
+    id: 'form-securities',
+    name: '해외증권취득 신고서',
     formNumber: '별지 제7-10호',
-    downloadUrl: '/forms/form-7-10.pdf',
-    description: '해외 증권 취득 시 제출하는 신고서',
+    downloadUrl: '/forms/form-securities.pdf',
+    description: '해외증권 취득 시 제출하는 신고서',
   },
-  'offshore-report': {
-    id: 'offshore-report',
-    name: '역외금융회사 신고서',
-    formNumber: '',
-    downloadUrl: '/forms/offshore-report.pdf',
-    description: '역외금융회사 설립/투자 시 제출',
+  'form-branch': {
+    id: 'form-branch',
+    name: '해외지사 설치 신고서',
+    formNumber: '별지 제9-4호',
+    downloadUrl: '/forms/form-branch.pdf',
+    description: '해외 지점/사무소 설치 시 제출하는 신고서',
   },
-  'foreign-account': {
-    id: 'foreign-account',
-    name: '해외금융계좌 신고서',
+  'form-offshore': {
+    id: 'form-offshore',
+    name: '역외금융회사 투자 신고서',
     formNumber: '',
-    downloadUrl: '/forms/foreign-account.pdf',
-    description: '해외금융계좌 신고 시 세무서 제출',
+    downloadUrl: '/forms/form-offshore.pdf',
+    description: '역외금융회사 투자 시 제출하는 신고서',
+  },
+  // 루트 B 서식
+  'form-b-financial': {
+    id: 'form-b-financial',
+    name: '금융업 해외직접투자 신고서',
+    formNumber: '',
+    downloadUrl: '/forms/form-b-financial.pdf',
+    description: '금융회사의 금융업 해외직접투자 신고서',
+  },
+  'form-b-non-financial': {
+    id: 'form-b-non-financial',
+    name: '비금융업 해외직접투자 신고서',
+    formNumber: '',
+    downloadUrl: '/forms/form-b-non-financial.pdf',
+    description: '금융회사의 비금융업 해외직접투자 신고서',
+  },
+  'form-b-branch': {
+    id: 'form-b-branch',
+    name: '해외지사 설치 보고서',
+    formNumber: '',
+    downloadUrl: '/forms/form-b-branch.pdf',
+    description: '금융회사의 해외지사 설치 보고서',
+  },
+  'form-b-offshore': {
+    id: 'form-b-offshore',
+    name: '역외금융회사 투자 보고서',
+    formNumber: '',
+    downloadUrl: '/forms/form-b-offshore.pdf',
+    description: '금융회사의 역외금융회사 투자 보고서',
   },
 };

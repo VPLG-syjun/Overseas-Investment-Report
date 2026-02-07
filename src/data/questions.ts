@@ -1,148 +1,111 @@
 import type { Question } from '../types';
 
-// 질문 데이터 - 실제 내용은 차차 업데이트 예정
+// 질문 데이터
 export const questions: Question[] = [
+  // Step 1: 투자자 본인 확인
   {
     id: 'investor-type',
-    category: '투자자 정보',
-    question: '투자자 유형을 선택해주세요',
-    description: '거주자(한국인)가 해외에 투자하는 경우를 기준으로 합니다',
+    category: 'Step 1: 투자자 확인',
+    question: '귀하(투자자)는 어떤 성격입니까?',
     options: [
       {
-        id: 'individual',
-        label: '개인',
-        description: '개인 자격으로 해외 투자',
-        nextQuestionId: 'investment-type',
-        resultTags: ['investor:individual'],
+        id: 'general',
+        label: '개인 또는 일반 법인',
+        description: '제조업, 서비스업 등 일반 기업',
+        nextQuestionId: 'route-a-purpose',
+        resultTags: ['investor:general'],
       },
       {
-        id: 'corporation',
-        label: '법인',
-        description: '법인(회사) 자격으로 해외 투자',
-        nextQuestionId: 'investment-type',
-        resultTags: ['investor:corporation'],
+        id: 'financial',
+        label: '금융회사',
+        description: '은행, 증권, 보험, 카드, 자산운용사 등',
+        nextQuestionId: 'route-b-type',
+        resultTags: ['investor:financial'],
       },
     ],
   },
+
+  // 루트 A: 개인 또는 일반 법인 (외국환거래규정 적용)
   {
-    id: 'investment-type',
-    category: '투자 방식',
-    question: '투자 방식을 선택해주세요',
-    description: '해외 투자의 유형에 따라 신고 절차가 달라집니다',
+    id: 'route-a-purpose',
+    category: '루트 A: 일반 투자자',
+    question: '투자 목적이 무엇입니까?',
+    description: '외국환거래규정이 적용됩니다',
     options: [
       {
-        id: 'direct-investment',
-        label: '해외직접투자',
-        description: '외국 법인의 경영에 참여하기 위한 투자 (지분 10% 이상 등)',
-        nextQuestionId: 'direct-investment-method',
-        resultTags: ['type:direct-investment'],
+        id: 'a1-direct',
+        label: '경영 참여 또는 지분 투자',
+        description: '지분 10% 이상 취득하거나, 10% 미만이라도 임원 파견/계약 체결 등 실질적 경영권 행사',
+        resultTags: ['route:a', 'purpose:direct-investment'],
       },
       {
-        id: 'securities',
-        label: '증권취득',
-        description: '외국 증권(주식, 채권 등) 취득 (지분 10% 미만)',
-        nextQuestionId: 'securities-type',
-        resultTags: ['type:securities'],
+        id: 'a2-securities',
+        label: '단순 투자 (포트폴리오 투자)',
+        description: '지분 10% 미만의 주식, 채권 등 포트폴리오 투자',
+        resultTags: ['route:a', 'purpose:securities'],
       },
       {
-        id: 'offshore-finance',
-        label: '역외금융회사 설립/투자',
-        description: '조세피난처 등에 역외금융회사 설립 또는 투자',
-        nextQuestionId: 'offshore-purpose',
-        resultTags: ['type:offshore'],
+        id: 'a3-branch',
+        label: '현지 영업소 설치',
+        description: '법인 설립이 아닌 지점이나 사무소 설치',
+        resultTags: ['route:a', 'purpose:branch'],
+      },
+      {
+        id: 'a4-offshore',
+        label: '해외 펀드 투자',
+        description: '실체 없는 역외금융회사의 지분 취득',
+        resultTags: ['route:a', 'purpose:offshore'],
       },
     ],
   },
+
+  // 루트 B: 금융회사 (금융회사 해외진출 규정 적용)
   {
-    id: 'direct-investment-method',
-    category: '해외직접투자',
-    question: '해외직접투자 방법을 선택해주세요',
+    id: 'route-b-type',
+    category: '루트 B: 금융회사',
+    question: '투자/진출의 형태가 무엇입니까?',
+    description: '금융회사 해외진출 규정이 적용됩니다',
     options: [
       {
-        id: 'new-establishment',
-        label: '현지법인 신규 설립',
-        description: '해외에 새로운 법인을 설립',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['method:new-establishment'],
+        id: 'b1-direct',
+        label: '해외 법인 설립 또는 지분 투자 (직접투자)',
+        description: '해외에 법인을 설립하거나 기존 법인의 지분 취득',
+        nextQuestionId: 'route-b-industry',
+        resultTags: ['route:b', 'type:direct'],
       },
       {
-        id: 'capital-participation',
-        label: '기존 법인 지분 취득',
-        description: '기존 외국 법인의 지분을 취득하여 경영 참여',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['method:capital-participation'],
+        id: 'b2-branch',
+        label: '현지 지점 또는 사무소 설치',
+        description: '해외에 지점이나 사무소 설치',
+        resultTags: ['route:b', 'type:branch'],
       },
       {
-        id: 'branch',
-        label: '지점/사무소 설치',
-        description: '해외에 지점 또는 연락사무소 설치',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['method:branch'],
+        id: 'b3-offshore',
+        label: '역외금융회사(해외 펀드 등) 투자',
+        description: '역외금융회사에 대한 투자',
+        resultTags: ['route:b', 'type:offshore'],
       },
     ],
   },
+
+  // 루트 B - Q3: 직접투자 시 업종 확인
   {
-    id: 'securities-type',
-    category: '증권취득',
-    question: '취득하려는 증권 유형을 선택해주세요',
+    id: 'route-b-industry',
+    category: '루트 B: 금융회사',
+    question: '투자 대상 해외 법인의 업종은 무엇입니까?',
+    description: '업종에 따라 신고 기관이 달라집니다',
     options: [
       {
-        id: 'listed-securities',
-        label: '상장 증권',
-        description: '외국 증권거래소에 상장된 주식, ETF 등',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['securities:listed'],
+        id: 'b1-financial-industry',
+        label: '금융/보험업',
+        description: '은행, 증권, 보험, 자산운용 등 금융업',
+        resultTags: ['route:b', 'type:direct', 'industry:financial'],
       },
       {
-        id: 'unlisted-securities',
-        label: '비상장 증권',
-        description: '비상장 주식, 사모펀드 지분 등',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['securities:unlisted'],
-      },
-    ],
-  },
-  {
-    id: 'offshore-purpose',
-    category: '역외금융회사',
-    question: '역외금융회사 투자 목적을 선택해주세요',
-    options: [
-      {
-        id: 'holding',
-        label: '지주회사 목적',
-        description: '해외 자회사 관리를 위한 지주회사 설립',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['offshore:holding'],
-      },
-      {
-        id: 'spc',
-        label: 'SPC/페이퍼컴퍼니',
-        description: '특수목적회사(SPC) 설립',
-        nextQuestionId: 'investment-amount',
-        resultTags: ['offshore:spc'],
-      },
-    ],
-  },
-  {
-    id: 'investment-amount',
-    category: '투자 금액',
-    question: '예상 투자 금액을 선택해주세요',
-    description: '투자 금액에 따라 신고 기관이 달라질 수 있습니다',
-    options: [
-      {
-        id: 'under-1m',
-        label: '100만 달러 미만',
-        resultTags: ['amount:under-1m'],
-      },
-      {
-        id: '1m-to-10m',
-        label: '100만 달러 이상 ~ 1,000만 달러 미만',
-        resultTags: ['amount:1m-to-10m'],
-      },
-      {
-        id: 'over-10m',
-        label: '1,000만 달러 이상',
-        resultTags: ['amount:over-10m'],
+        id: 'b1-non-financial-industry',
+        label: '비금융업',
+        description: '부동산, IT, 제조업 등 비금융업',
+        resultTags: ['route:b', 'type:direct', 'industry:non-financial'],
       },
     ],
   },
@@ -157,4 +120,4 @@ export const getQuestionById = (id: string): Question | undefined => {
 export const FIRST_QUESTION_ID = 'investor-type';
 
 // 마지막 질문 ID들 (이 질문 이후 결과 페이지로 이동)
-export const FINAL_QUESTION_IDS = ['investment-amount'];
+export const FINAL_QUESTION_IDS = ['route-a-purpose', 'route-b-type', 'route-b-industry'];

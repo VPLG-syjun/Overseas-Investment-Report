@@ -3,126 +3,222 @@ import { agencies, forms } from './agencies';
 
 // 신고 유형 데이터
 export const reportTypes: Record<string, ReportType> = {
-  'direct-investment-forex': {
-    id: 'direct-investment-forex',
-    name: '해외직접투자 신고 (외국환은행)',
+  // 루트 A 결과들
+  'a-direct-investment': {
+    id: 'a-direct-investment',
+    name: '해외직접투자 신고',
     description:
-      '외국환거래규정에 따른 해외직접투자 신고. 외국 법인의 경영에 참여하기 위해 지분 10% 이상 취득하거나 1년 이상 금전을 대여하는 경우 해당됩니다.',
+      '외국 법인의 경영에 참여하기 위해 지분 10% 이상 취득하거나, 10% 미만이라도 임원 파견, 계약 체결 등 실질적 경영권을 행사하는 경우 해당됩니다.',
     agency: agencies['forex-bank'],
-    requiredForms: [forms['form-9-1'], forms['form-9-3']],
+    requiredForms: [forms['form-direct-investment']],
     requiredDocuments: [
+      '해외직접투자 신고서 (별지 서식)',
       '사업계획서',
-      '투자대상 법인 정관 또는 설립예정 정관',
-      '투자대상 법인 재무제표 (기존 법인인 경우)',
-      '투자자 신분증 사본',
-      '법인의 경우: 사업자등록증, 법인등기부등본',
+      '납세증명서 (국세, 지방세)',
+      '신용정보조회동의서',
+      '주민등록등본 (개인) 또는 사업자등록증명 (법인)',
     ],
-    legalBasis: '외국환거래규정 제9-5조',
+    legalBasis: '외국환거래규정 제9장',
     notes: [
-      '투자 실행 전 사전 신고가 원칙입니다',
+      '신고 시점: 사전 신고 (송금 전 완료 필수)',
       '신고 수리 후 1년 이내 투자를 이행해야 합니다',
     ],
   },
-  'direct-investment-bok': {
-    id: 'direct-investment-bok',
-    name: '해외직접투자 신고 (한국은행)',
+  'a-securities': {
+    id: 'a-securities',
+    name: '해외증권취득 신고',
     description:
-      '대규모 해외직접투자의 경우 한국은행에 신고해야 합니다.',
-    agency: agencies['bank-of-korea'],
-    requiredForms: [forms['form-9-1']],
-    requiredDocuments: [
-      '사업계획서',
-      '투자대상 법인 정관',
-      '투자자 신분증 사본',
-      '법인의 경우: 사업자등록증, 법인등기부등본',
-      '자금조달계획서',
-    ],
-    legalBasis: '외국환거래규정 제9-5조',
-    notes: [
-      '투자금액이 일정 기준 이상인 경우 한국은행 신고 대상',
-    ],
-  },
-  'securities-acquisition': {
-    id: 'securities-acquisition',
-    name: '증권취득 신고',
-    description:
-      '해외 증권(주식, 채권, 펀드 등)을 취득하는 경우의 신고입니다. 지분 10% 미만 취득으로 경영 참여 목적이 아닌 경우 해당됩니다.',
+      '지분 10% 미만의 주식, 채권 등 포트폴리오 투자를 하는 경우 해당됩니다. 경영 참여 목적이 아닌 단순 투자입니다.',
     agency: agencies['forex-bank'],
-    requiredForms: [forms['form-7-10']],
+    requiredForms: [forms['form-securities']],
     requiredDocuments: [
-      '증권취득 신고서',
-      '투자 대상 증권 설명서',
-      '투자자 신분증 사본',
+      '해외증권취득 신고서 (별지 서식)',
+      '납세증명서 (국세, 지방세)',
+      '신용정보조회동의서',
+      '주민등록등본 (개인) 또는 사업자등록증명 (법인)',
     ],
-    legalBasis: '외국환거래규정 제7-31조',
+    legalBasis: '외국환거래규정 제7장',
     notes: [
-      '상장증권의 경우 금융투자업자를 통한 취득 시 별도 신고 불요할 수 있음',
-      '비상장증권은 외국환은행 신고 필요',
+      '신고 시점: 사전 신고 (송금 전 완료 필수)',
     ],
   },
-  'offshore-company': {
-    id: 'offshore-company',
-    name: '역외금융회사 설립/투자 신고',
+  'a-branch': {
+    id: 'a-branch',
+    name: '해외지사 설치 신고',
     description:
-      '조세피난처 등 역외금융센터에 소재한 금융회사에 대한 설립 또는 투자 신고입니다.',
+      '법인 설립이 아닌 지점이나 사무소를 해외에 설치하는 경우 해당됩니다.',
     agency: agencies['forex-bank'],
-    requiredForms: [forms['offshore-report']],
+    requiredForms: [forms['form-branch']],
     requiredDocuments: [
-      '역외금융회사 설립/투자 신고서',
+      '해외지사 설치 신고서 (별지 서식)',
       '사업계획서',
-      '설립지 관련 정보',
+      '납세증명서 (국세, 지방세)',
+      '신용정보조회동의서',
+      '주민등록등본 (개인) 또는 사업자등록증명 (법인)',
     ],
-    legalBasis: '외국환거래규정 관련 조항',
+    legalBasis: '외국환거래규정 제9장',
     notes: [
-      '역외금융회사 투자는 별도의 신고 요건이 있습니다',
-      '세무 관련 추가 의무가 발생할 수 있습니다',
+      '신고 시점: 사전 신고 (송금 전 완료 필수)',
     ],
   },
-  'foreign-account-report': {
-    id: 'foreign-account-report',
-    name: '해외금융계좌 신고',
+  'a-offshore': {
+    id: 'a-offshore',
+    name: '역외금융회사 투자 신고',
     description:
-      '해외금융계좌 잔액이 5억원을 초과하는 경우 매년 6월 세무서에 신고해야 합니다.',
-    agency: agencies['tax-office'],
-    requiredForms: [forms['foreign-account']],
+      '실체 없는 역외금융회사(해외 펀드 등)의 지분을 취득하는 경우 해당됩니다.',
+    agency: agencies['forex-bank'],
+    requiredForms: [forms['form-offshore']],
     requiredDocuments: [
-      '해외금융계좌 신고서',
-      '해외금융계좌 잔액 증빙',
+      '역외금융회사 투자 신고서',
+      '펀드 개요서 (PPM)',
+      '납세증명서 (국세, 지방세)',
+      '신용정보조회동의서',
+      '주민등록등본 (개인) 또는 사업자등록증명 (법인)',
     ],
-    legalBasis: '국제조세조정에 관한 법률 제52조',
+    legalBasis: '외국환거래규정 제9장',
     notes: [
-      '매년 6월 1일~30일 신고',
-      '전년도 말일 기준 계좌 잔액 합계가 5억원 초과 시 신고 대상',
+      '신고 시점: 사전 신고 (송금 전 완료 필수)',
+    ],
+  },
+
+  // 루트 B 결과들
+  'b-direct-financial': {
+    id: 'b-direct-financial',
+    name: '금융업 해외직접투자 신고 (금융위원회)',
+    description:
+      '금융회사가 해외에 금융/보험업 법인을 설립하거나 지분을 취득하는 경우입니다. 금융감독원을 경유하여 금융위원회에 신고하며, 수리가 필요합니다.',
+    agency: agencies['fsc'],
+    requiredForms: [forms['form-b-financial']],
+    requiredDocuments: [
+      '해외직접투자 신고서',
+      '이사회 의사록',
+      '사업계획서',
+      '재무건전성 자료 (BIS 비율 등)',
+      '정관',
+    ],
+    legalBasis: '금융회사의 해외진출에 관한 규정',
+    notes: [
+      '신고 시점: 사전 신고 (수리 필요)',
+      '금융감독원 경유 → 금융위원회 최종 수리',
+    ],
+  },
+  'b-direct-non-financial': {
+    id: 'b-direct-non-financial',
+    name: '비금융업 해외직접투자 신고 (금융감독원)',
+    description:
+      '금융회사가 해외에 비금융업(부동산, IT 등) 법인을 설립하거나 지분을 취득하는 경우입니다. 금융감독원에 신고합니다.',
+    agency: agencies['fss'],
+    requiredForms: [forms['form-b-non-financial']],
+    requiredDocuments: [
+      '해외직접투자 신고서',
+      '이사회 의사록',
+      '사업계획서',
+      '재무건전성 자료 (BIS 비율 등)',
+      '정관',
+    ],
+    legalBasis: '금융회사의 해외진출에 관한 규정',
+    notes: [
+      '신고 시점: 사전 신고',
+      '금융업 투자 대비 심사 요건이 완화됨',
+    ],
+  },
+  'b-branch': {
+    id: 'b-branch',
+    name: '해외지사 설치 보고 (금융감독원)',
+    description:
+      '금융회사가 해외에 지점 또는 사무소를 설치하는 경우입니다. 사후 보고 형태로 진행됩니다.',
+    agency: agencies['fss'],
+    requiredForms: [forms['form-b-branch']],
+    requiredDocuments: [
+      '해외지사 설치 보고서',
+      '현지 인가서류',
+      '영업기금 송금 증빙',
+    ],
+    legalBasis: '금융회사의 해외진출에 관한 규정',
+    notes: [
+      '보고 시점: 사후 보고 (설치 후 1개월 이내)',
+    ],
+  },
+  'b-offshore': {
+    id: 'b-offshore',
+    name: '역외금융회사 투자 보고 (금융감독원)',
+    description:
+      '금융회사가 역외금융회사(해외 펀드 등)에 투자하는 경우입니다. 사후 보고 형태로 진행됩니다.',
+    agency: agencies['fss'],
+    requiredForms: [forms['form-b-offshore']],
+    requiredDocuments: [
+      '역외금융회사 투자 보고서',
+      '펀드 개요서 (PPM)',
+      '투자금 송금 증빙',
+    ],
+    legalBasis: '금융회사의 해외진출에 관한 규정',
+    notes: [
+      '보고 시점: 사후 보고 (투자 후 1개월 이내)',
+    ],
+  },
+
+  // 공통 사후관리 안내
+  'common-post-management': {
+    id: 'common-post-management',
+    name: '사후관리 의무 안내',
+    description:
+      '신고가 끝이 아닙니다. 투자 이후에도 지속적인 보고 및 관리 의무가 있습니다.',
+    agency: agencies['forex-bank'],
+    requiredForms: [],
+    requiredDocuments: [],
+    legalBasis: '외국환거래규정, 금융회사의 해외진출에 관한 규정',
+    notes: [
+      '📌 송금 보고: 투자금을 보낸 후 즉시 또는 1개월 내 은행/금감원에 보고',
+      '📌 사업실적 보고: 매년 회계연도 종료 후 5개월 이내에 결산 서류 제출',
+      '📌 변경/청산 신고: 현지법인명 변경, 지분율 변동, 사업 종결 시 반드시 변경/청산 신고 필요',
     ],
   },
 };
 
 // 결과 매핑 규칙 - 태그 조합에 따라 어떤 신고가 필요한지 결정
 export const resultRules: ResultRule[] = [
-  // 해외직접투자 - 외국환은행 신고
+  // 루트 A: 개인/일반법인
   {
-    id: 'rule-direct-forex',
-    requiredTags: ['type:direct-investment'],
-    excludeTags: ['amount:over-10m'],
-    reportTypes: ['direct-investment-forex', 'foreign-account-report'],
+    id: 'rule-a-direct',
+    requiredTags: ['route:a', 'purpose:direct-investment'],
+    reportTypes: ['a-direct-investment', 'common-post-management'],
   },
-  // 해외직접투자 - 대규모 (한국은행)
   {
-    id: 'rule-direct-bok',
-    requiredTags: ['type:direct-investment', 'amount:over-10m'],
-    reportTypes: ['direct-investment-bok', 'foreign-account-report'],
+    id: 'rule-a-securities',
+    requiredTags: ['route:a', 'purpose:securities'],
+    reportTypes: ['a-securities', 'common-post-management'],
   },
-  // 증권취득
   {
-    id: 'rule-securities',
-    requiredTags: ['type:securities'],
-    reportTypes: ['securities-acquisition', 'foreign-account-report'],
+    id: 'rule-a-branch',
+    requiredTags: ['route:a', 'purpose:branch'],
+    reportTypes: ['a-branch', 'common-post-management'],
   },
-  // 역외금융회사
   {
-    id: 'rule-offshore',
-    requiredTags: ['type:offshore'],
-    reportTypes: ['offshore-company', 'foreign-account-report'],
+    id: 'rule-a-offshore',
+    requiredTags: ['route:a', 'purpose:offshore'],
+    reportTypes: ['a-offshore', 'common-post-management'],
+  },
+
+  // 루트 B: 금융회사
+  {
+    id: 'rule-b-direct-financial',
+    requiredTags: ['route:b', 'type:direct', 'industry:financial'],
+    reportTypes: ['b-direct-financial', 'common-post-management'],
+  },
+  {
+    id: 'rule-b-direct-non-financial',
+    requiredTags: ['route:b', 'type:direct', 'industry:non-financial'],
+    reportTypes: ['b-direct-non-financial', 'common-post-management'],
+  },
+  {
+    id: 'rule-b-branch',
+    requiredTags: ['route:b', 'type:branch'],
+    reportTypes: ['b-branch', 'common-post-management'],
+  },
+  {
+    id: 'rule-b-offshore',
+    requiredTags: ['route:b', 'type:offshore'],
+    reportTypes: ['b-offshore', 'common-post-management'],
   },
 ];
 
