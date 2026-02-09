@@ -1,13 +1,13 @@
+/* Apple-style Global Reset */
 :root {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
-    'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    sans-serif;
-  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+    'Helvetica Neue', 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', sans-serif;
+  line-height: 1.47059;
   font-weight: 400;
 
-  color: #1e293b;
-  background-color: #f8fafc;
+  color: #1d1d1f;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,10 +17,11 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -30,8 +31,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0;
   font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
 p {
@@ -43,14 +44,24 @@ button {
 }
 
 a {
-  color: #2563eb;
+  color: #0071e3;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  opacity: 0.7;
 }
 
 ul {
-  margin: 0;
+  list-style: none;
+}
+
+/* Selection style */
+::selection {
+  background: rgba(0, 113, 227, 0.2);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
